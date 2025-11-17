@@ -1,0 +1,62 @@
+### Dither images using interleaved gradient noise
+# IGN-PY
+
+This is an experimental image converter using interleaved gradient noise dithering for color debanding.
+Converts images to 8-bit PNG format.
+
+## Requirements:
+- Python 3.7+  
+- pillow
+- numpy
+- ImageMagick
+
+#### Install ImageMagick:
+
+Windows: Download from imagemagick.org  
+Linux: `sudo apt install imagemagick`  
+macOS: `brew install imagemagick`  
+
+```
+pip install pillow numpy
+```
+## Usage:
+  ### Single image:
+    python ign-py.py /path/to/image.jpg 
+    python ign-py.py /path/to/image.webp -o /path/to/output/
+
+  ### Batch conversion:
+    python ign-py.py -d /path/to/images/ -o /path/to/converted-images/
+
+  ### With custom noise settings:
+    python ign-py.py /path/to/image.jpg -b 4 -s 0.005
+
+## Examples
+
+| RGB Image | GS Image | Flags | Comment |
+|-----------|----------|-------|---------|
+| ![RGB gradient with alpha](media/AlphaGradient.png) 130305 Colors, 259kb | ![Greyscale Shades](media/GrayShades.gif) 255 Colors, 9.85kb | | unprocessed original images |
+| ![RGB gradient with alpha](media/AlphaGradient_s-0.0_b-0.0_p-system.png) 95 Colors, 3.10kb | ![Greyscale Shades](media/GrayShades_s-0.0_b-0.0_p-system.png) 29 Colors, 4.76kb | -s 0.0 -b 0.0 -p system | no dithering, system palette |
+| ![RGB gradient with alpha](media/AlphaGradient_s-0.0_b-0.0_p-adaptive.png) 256 Colors, 12.7kb | ![Greyscale Shades](media/GrayShades_s-0.0_b-0.0_p-adaptive.png) 255 Colors, 5.87kb | -s 0.0 -b 0.0 -p adaptive | no dithering, adaptive color palette |
+| ![RGB gradient with alpha](media/AlphaGradient_s-0.25_b-0.0_p-system.png) 163 Colors, 42.8kb | ![Greyscale Shades](media/GrayShades_s-0.25_b-0.0_p-system.png) 29 Colors, 25.0kb | -s 0.25 -b 0.0 -p adaptive | ign dithering (very high value), system color palette |
+| ![RGB gradient with alpha](media/AlphaGradient_s-0.25_b-0.0_p-adaptive.png) 256 Colors, 96.9kb | ![Greyscale Shades](media/GrayShades_s-0.25_b-0.0_p-adaptive.png) 256 Colors, 35.5kb | -s 0.25 -b 0.0 -p adaptive | ign dithering (very high value), adaptive color palette |
+| ![RGB gradient with alpha](media/AlphaGradient_s-0.125_b-0.5_p-adaptive.png) 45300 Colors, 220kb | ![Greyscale Shades](media/GrayShades_s-0.125_b-0.5_p-adaptive.png) 256 Colors, 31.9kb | -s 0.125 -b 0.5 -p adaptive | ign dithering (moderate value), adaptive color palette, 0.5px gaussian blur |
+| ![RGB gradient with alpha](media/AlphaGradient_s-0.05_b-1.5_p-adaptive.png) 56333 Colors, 63.7kb | ![Greyscale Shades](media/GrayShades_s-0.05_b-1.5_p-adaptive.png) 253 Colors, 15.7kb | -s 0.05 -b 1.5 -p adaptive | ign dithering, adaptive color palette, 1.5px gaussian blur |
+
+Color count by `magick <image> -format "%k\n" info:`
+
+## Limitations
+
+- Currently destroys alpha channel
+- Tested on Windows 11 only
+
+## Would You Like To Know More?
+
+The scripts 'system' palette is based on this source: [M_KGySoft_Drawing_Imaging_PredefinedColorsQuantizer_SystemDefault8BppPalette](https://docs.kgysoft.net/drawing/html/M_KGySoft_Drawing_Imaging_PredefinedColorsQuantizer_SystemDefault8BppPalette.htm) That's basically the classic Windows system palette - the 256-color palette that Windows used in 256-color mode. It's well-documented, reproducible.  
+
+### Resources
+
+https://blog.demofox.org/2022/01/01/interleaved-gradient-noise-a-different-kind-of-low-discrepancy-sequence/
+
+https://docs.kgysoft.net/drawing/html/T_KGySoft_Drawing_Imaging_InterleavedGradientNoiseDitherer.htm
+
+Original images ([media/GrayShades.gif](https://docs.kgysoft.net/drawing/Help/Images/media/GrayShades.gif), [media/AlphaGradient.png](https://docs.kgysoft.net/drawing/Help/Images/media/AlphaGradient.png)) taken from [docs.kgysoft.net](https://docs.kgysoft.net/drawing/html/T_KGySoft_Drawing_Imaging_InterleavedGradientNoiseDitherer.htm). See licence on software-like materials: https://github.com/koszeggy/KGySoft.Drawing?tab=License-1-ov-file#readme
