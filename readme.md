@@ -4,6 +4,9 @@
 This is an experimental image converter using interleaved gradient noise dithering for color debanding.
 Converts images to 8-bit PNG format.
 
+## Disclaimer
+This script was made with assistance of Claude.ai: As a developer, I understand the code and I'm able to review it properly. Claude was used as an assistant to speed up development. I did **no** intensive testing on the script. So, be aware of the bugs.
+
 ## Requirements:
 - Python 3.7+  
 - pillow
@@ -12,23 +15,23 @@ Converts images to 8-bit PNG format.
 
 #### Install ImageMagick:
 
-Windows: Download from imagemagick.org  
-Linux: `sudo apt install imagemagick`  
-macOS: `brew install imagemagick`  
+**Windows**: Download from [imagemagick.org](https://imagemagick.org/)  
+**Linux**: `sudo apt install imagemagick`  
+**macOS**: `brew install imagemagick`  
 
 ```
 pip install pillow numpy
 ```
 ## Usage:
   ### Single image:
-    python ign-py.py /path/to/image.jpg 
-    python ign-py.py /path/to/image.webp -o /path/to/output/
+    python ign_converter.py /path/to/image.jpg 
+    python ign_converter.py /path/to/image.webp -o /path/to/output/
 
   ### Batch conversion:
-    python ign-py.py -d /path/to/images/ -o /path/to/converted-images/
+    python ign_converter.py -d /path/to/images/ -o /path/to/converted-images/
 
   ### With custom noise settings:
-    python ign-py.py /path/to/image.jpg -b 4 -s 0.005
+    python ign_converter.py /path/to/image.jpg -b 4 -s 0.005
 
 ## Examples
 
@@ -51,12 +54,18 @@ Color count by `magick <image> -format "%k\n" info:`
 
 ## Would You Like To Know More?
 
-The scripts 'system' palette is based on this source: [M_KGySoft_Drawing_Imaging_PredefinedColorsQuantizer_SystemDefault8BppPalette](https://docs.kgysoft.net/drawing/html/M_KGySoft_Drawing_Imaging_PredefinedColorsQuantizer_SystemDefault8BppPalette.htm) That's basically the classic Windows system palette - the 256-color palette that Windows used in 256-color mode. It's well-documented, reproducible.  
+Interleaved gradient noise is based on Jorge Jimenez's formula from [Next Generation Post Processing in Call of Duty](https://www.iryoku.com/next-generation-post-processing-in-call-of-duty-advanced-warfare/)  
+```
+frac(52.9829189 * frac(0.06711056 * x + 0.00583715 * y))
+```
+
+
+The scripts "system" palette is based on [SystemDefault8BppPalette](https://docs.kgysoft.net/drawing/html/M_KGySoft_Drawing_Imaging_PredefinedColorsQuantizer_SystemDefault8BppPalette.htm). That's basically the classic Windows system palette - the 256-color palette that Windows used in 256-color mode. It's well-documented, reproducible.  
 
 ### Resources
 
-https://blog.demofox.org/2022/01/01/interleaved-gradient-noise-a-different-kind-of-low-discrepancy-sequence/
+- https://blog.demofox.org/2022/01/01/interleaved-gradient-noise-a-different-kind-of-low-discrepancy-sequence/
 
-https://docs.kgysoft.net/drawing/html/T_KGySoft_Drawing_Imaging_InterleavedGradientNoiseDitherer.htm
+- https://docs.kgysoft.net/drawing/html/T_KGySoft_Drawing_Imaging_InterleavedGradientNoiseDitherer.htm
 
-Original images ([media/GrayShades.gif](https://docs.kgysoft.net/drawing/Help/Images/media/GrayShades.gif), [media/AlphaGradient.png](https://docs.kgysoft.net/drawing/Help/Images/media/AlphaGradient.png)) taken from [docs.kgysoft.net](https://docs.kgysoft.net/drawing/html/T_KGySoft_Drawing_Imaging_InterleavedGradientNoiseDitherer.htm). See licence on software-like materials: https://github.com/koszeggy/KGySoft.Drawing?tab=License-1-ov-file#readme
+- Original images ([media/GrayShades.gif](https://docs.kgysoft.net/drawing/Help/Images/media/GrayShades.gif), [media/AlphaGradient.png](https://docs.kgysoft.net/drawing/Help/Images/media/AlphaGradient.png)) taken from [docs.kgysoft.net](https://docs.kgysoft.net/drawing/html/T_KGySoft_Drawing_Imaging_InterleavedGradientNoiseDitherer.htm). See licence on software-like materials: https://github.com/koszeggy/KGySoft.Drawing?tab=License-1-ov-file#readme
