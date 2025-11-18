@@ -44,10 +44,20 @@ pip install pillow numpy
 | `-m` `--md5filename` |  | Use MD5 hash of the final image as filename |
 | `-p` `--palette`| `adaptive` `system`| Palette mode: adaptive (default) or system (Windows 256-color palette) |
 | `-r` `--range-normalize` | | Normalizes image color range before dithering; Can help with some 32-Bit images |
+| `-pb` `--preblur` | int | Pre-blur radius before dithering (default: 0.0, range: 0.0-2.0). Smooths existing artifacts |
+| `-sd` `--seed` | int | Noise seed offset (default: 0, range: 0-1000). Varies the noise pattern |
+| `-tp` `--twopass` | | Use two-pass quantization. Applies a second lighter dithering pass to further reduce banding |
+| `-cs` `--colorspace` | | Color space for processing: rgb (default) or lab (perceptually uniform) |
 
 
 ## Examples
 
+```
+python ign_converter.py japan.png -s 0.0025 -b 0 --range-normalize -p adaptive -pb 0 -tp -cs rgb -sd -1
+```
+
+Example images for current version will be included in future versions
+<!--
 | RGB Image | GS Image | Flags | Comment |
 |-----------|----------|-------|---------|
 | ![RGB gradient with alpha](media/AlphaGradient.png) 130305 Colors, 259kb | ![Greyscale Shades](media/GrayShades.gif) 255 Colors, 9.85kb | | unprocessed original images |
@@ -59,7 +69,7 @@ pip install pillow numpy
 | ![RGB gradient with alpha](media/AlphaGradient_s-0.05_b-1.5_p-adaptive.png) 56333 Colors, 63.7kb | ![Greyscale Shades](media/GrayShades_s-0.05_b-1.5_p-adaptive.png) 253 Colors, 15.7kb | -s 0.05 -b 1.5 -p adaptive | ign dithering, adaptive color palette, 1.5px gaussian blur |
 
 Color count by `magick <image> -format "%k\n" info:`
-
+-->
 ## Limitations
 
 - Always converts RGBA to RGB by compositing on white background
